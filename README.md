@@ -7,14 +7,15 @@ This tool convert an input alphanumeric character into Morse code
  
 2. Renaming & Converting to beep.wav from alert2.mp3
 
-3. Replace to under the More-Signal/src/ directory
+3. Replacing to under the More-Signal/src/ directory
 
-4. Compile & Run
+4. Compiling & Runnig
+
 For Brew
 ```sh
 $ brew install sdl_mixer
 ```
-For Linux
+ For Linux
 ```sh
 $ sudo apt-get install build-essential
 $ wget -O SDL_mixer-1.2.12.tar.gz http://goo.gl/o0GIX
