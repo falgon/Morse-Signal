@@ -6,7 +6,7 @@
 #include<thread>
 
 struct player final{
-	player(const char* aup,const std::size_t& volume=0)noexcept
+	explicit player(const char* aup,const std::size_t& volume=0)noexcept
 		:err_flag(!(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,2,4096)<0))
 	{
 		if(err_flag){
@@ -22,7 +22,7 @@ struct player final{
 	}
 private:
 	template<class Chrono>
-	void play(Chrono&& ch)const
+	void play(Chrono&& ch)const noexcept
 	{
 		if(err_flag){
 			if(-1==Mix_PlayMusic(talk,-1)){
@@ -37,9 +37,9 @@ private:
 	const bool err_flag=false;
 	Mix_Music* talk=nullptr;
 public:
-	void dot()const{play(std::chrono::microseconds(150000));}
-	void dash()const{play(std::chrono::microseconds(400000));}
-	void space()const{std::this_thread::sleep_for(std::chrono::microseconds(50000));}
+	inline void dot()const noexcept{play(std::chrono::microseconds(150000));}
+	inline void dash()const noexcept{play(std::chrono::microseconds(400000));}
+	inline void space()const noexcept{std::this_thread::sleep_for(std::chrono::microseconds(50000));}
 };
 
 std::map<char,std::string> make_morse_table()
@@ -49,25 +49,25 @@ std::map<char,std::string> make_morse_table()
 		{'b',"20010101"},
 		{'c',"2010201"},
 		{'d',"20101"},
-    	{'e',"1"},
+    		{'e',"1"},
 	   	{'f',"10102001"},
 	   	{'g',"20201"},
-    	{'h',"1010101"},
-    	{'i',"101"},
-    	{'j',"1020202"},
-    	{'k',"20102"},
-    	{'l',"1020101"},
-    	{'m',"202"},
+    		{'h',"1010101"},
+    		{'i',"101"},
+    		{'j',"1020202"},
+    		{'k',"20102"},
+    		{'l',"1020101"},
+    		{'m',"202"},
 	   	{'n',"201"},
 		{'o',"2002002"},
 		{'p',"1020201"},
-    	{'q',"2020102"},
-    	{'r',"10201"},
-    	{'s',"10101"},
-    	{'t',"2"},
-    	{'u',"10102"},
-    	{'v',"1010102"},
-    	{'w',"10202"},
+    		{'q',"2020102"},
+    		{'r',"10201"},
+    		{'s',"10101"},
+    		{'t',"2"},
+    		{'u',"10102"},
+    		{'v',"1010102"},
+    		{'w',"10202"},
 	   	{'x',"2010102"},
    		{'y',"2010202"},
 	   	{'z',"2020101"},
@@ -77,20 +77,20 @@ std::map<char,std::string> make_morse_table()
 	   	{'4',"101010102"},
 	   	{'5',"101010101"},
 		{'6',"201010101"},
-    	{'7',"202010101"},
+    		{'7',"202010101"},
 	   	{'8',"202020101"},
 	   	{'9',"202020201"},
-    	{'0',"202020202"},
-    	{'.',"10201020102"},
-    	{',',"20201010202"},
-    	{'?',"10102020101"},
-    	{'!',"20102010202"},
-    	{'-',"20101010102"},
-    	{'/',"201010201"},
-    	{'@',"10202010201"},
-    	{'(',"201020201"},
-    	{')',"20102020102"},
-    	{' ',"0"}
+    		{'0',"202020202"},
+    		{'.',"10201020102"},
+    		{',',"20201010202"},
+    		{'?',"10102020101"},
+    		{'!',"20102010202"},
+    		{'-',"20101010102"},
+    		{'/',"201010201"},
+    		{'@',"10202010201"},
+    		{'(',"201020201"},
+    		{')',"20102020102"},
+    		{' ',"0"}
 	};
 }
 
