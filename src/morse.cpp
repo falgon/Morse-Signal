@@ -1,9 +1,15 @@
 #include<SDL/SDL.h>
 #include<SDL/SDL_mixer.h>
 #include<iostream>
-#include<map>
 #include<chrono>
 #include<thread>
+
+#if __has_include(<unordered_map>)
+#define POSSIBLE_TO_INCLUDE_UNORDERED_MAP
+#include<unordered_map>
+#else
+#include<map>
+#endif
 
 struct player final{
 	explicit player(const char* aup,const std::size_t& volume=0)noexcept
@@ -42,25 +48,36 @@ public:
 	inline void space()const noexcept{std::this_thread::sleep_for(std::chrono::microseconds(50000));}
 };
 
-std::map<char,std::string> make_morse_table()
+#ifdef POSSIBLE_TO_INCLUDE_UNORDERED_MAP
+std::unordered_map<char,std::string>
+#else
+std::map<char,std::string> 
+#endif
+make_morse_table()
 {
-	return std::map<char,std::string>{
-		{'a',"102"},
-		{'b',"20010101"},
-		{'c',"2010201"},
-		{'d',"20101"},
+	return
+#ifdef POSSIBLE_TO_INCLUDE_UNORDERED_MAP
+		std::unordered_map<char,std::string>
+#else	
+		std::map<char,std::string>
+#endif
+		{
+			{'a',"102"},
+			{'b',"20010101"},
+			{'c',"2010201"},
+			{'d',"20101"},
     		{'e',"1"},
-	   	{'f',"10102001"},
-	   	{'g',"20201"},
+	   		{'f',"10102001"},
+	   		{'g',"20201"},
     		{'h',"1010101"},
     		{'i',"101"},
     		{'j',"1020202"},
     		{'k',"20102"},
     		{'l',"1020101"},
     		{'m',"202"},
-	   	{'n',"201"},
-		{'o',"2002002"},
-		{'p',"1020201"},
+	   		{'n',"201"},
+			{'o',"2002002"},
+			{'p',"1020201"},
     		{'q',"2020102"},
     		{'r',"10201"},
     		{'s',"10101"},
@@ -68,18 +85,18 @@ std::map<char,std::string> make_morse_table()
     		{'u',"10102"},
     		{'v',"1010102"},
     		{'w',"10202"},
-	   	{'x',"2010102"},
-   		{'y',"2010202"},
-	   	{'z',"2020101"},
-	   	{'1',"102020202"},
-	   	{'2',"101020202"},
-	   	{'3',"101010202"},
-	   	{'4',"101010102"},
-	   	{'5',"101010101"},
-		{'6',"201010101"},
+	   		{'x',"2010102"},
+   			{'y',"2010202"},
+	   		{'z',"2020101"},
+	   		{'1',"102020202"},
+	   		{'2',"101020202"},
+	   		{'3',"101010202"},
+	   		{'4',"101010102"},
+	   		{'5',"101010101"},
+			{'6',"201010101"},
     		{'7',"202010101"},
-	   	{'8',"202020101"},
-	   	{'9',"202020201"},
+	   		{'8',"202020101"},
+	   		{'9',"202020201"},
     		{'0',"202020202"},
     		{'.',"10201020102"},
     		{',',"20201010202"},
@@ -91,7 +108,7 @@ std::map<char,std::string> make_morse_table()
     		{'(',"201020201"},
     		{')',"20102020102"},
     		{' ',"0"}
-	};
+		};
 }
 
 int main(int argc,char** argv)
@@ -116,4 +133,5 @@ int main(int argc,char** argv)
 		}
 		std::this_thread::sleep_for(std::chrono::microseconds(300000));
 	}
+	return 0;
 }
